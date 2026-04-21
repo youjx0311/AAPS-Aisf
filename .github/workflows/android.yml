@@ -1,12 +1,7 @@
 name: Android CI
 
-on:
-  push:
-    branches:
-      - "3.4.2.1+aisf3.2.0"  # 必须这样分行 + 双引号
-  pull_request:
-    branches:
-      - "3.4.2.1+aisf3.2.0"
+# 改成最简单的触发方式，只要推送就运行，完全避免分支名匹配问题
+on: push
 
 jobs:
   build:
@@ -14,6 +9,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
     - name: set up JDK 21
       uses: actions/setup-java@v4
       with:
