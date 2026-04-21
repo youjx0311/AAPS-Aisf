@@ -1,7 +1,6 @@
 name: Android CI
 
-# 改成最简单的触发方式，只要推送就运行，完全避免分支名匹配问题
-on: push
+on: push  # 👈 这个能保证 100% 触发编译
 
 jobs:
   build:
@@ -9,7 +8,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
     - name: set up JDK 21
       uses: actions/setup-java@v4
       with:
@@ -19,20 +17,21 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-      
-    - name: Decode keystore
-      run: echo "${{ secrets.STORE_FILE }}" | base64 -d > app/keystore.jks
-
     - name: Build with Gradle
-      run: ./gradlew assembleFullRelease
-      env:
-        storePassword: ${{ secrets.STORE_PASSWORD }}
-        keyAlias: ${{ secrets.KEY_ALIAS }}
-        keyPassword: ${{ secrets.KEY_PASSWORD }}
-        storeFile: keystore.jks
-
+      run: |
+        export storePassword=${{ secrets.STORE_PASSWORD }}
+        export keyAlias=${{ secrets.KEY_ALIAS }}
+        export keyPassword=${{ secrets.KEY_PASSWORD }}
+        export storeFile=${{ secrets.STORE_FILE }}
+        ./gradlew assembleFullRelease \
+        -Dorg.gradle.jvmargs="-Xmx8g -XX:+UseParallelGC -Xss1024m" \
+        -Dkotlin.daemon.jvm.options="-Xmx2g" \
+        -Dkotlin.compiler.execution.strategy="in-process" \
+        -Dorg.gradle.daemon=true \
+        -Dorg.gradle.workers.max=8 \
+        -Dorg.gradle.caching=true
     - name: Archive production artifacts
       uses: actions/upload-artifact@v4
       with:
         name: aaps
-        path: app/build/outputs/apk/full/release/
+        path: app/build/outputs/apk/full/release
