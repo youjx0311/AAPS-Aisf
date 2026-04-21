@@ -100,6 +100,7 @@ and carb ratios.
 11. If you experience recurring problems with building the APK, as a last resort consider to
     delete your current Android Studio completely, reinstall the most recent version and clone
     this repo into a new directory on your computer (different than the one you have used before).
+    
 ### What can I do if the build does not work?
 * Follow the instructions exactly as described. Carefully re-read all previous and the failing 
   step and try to start from scratch.
@@ -109,6 +110,7 @@ and carb ratios.
   translation tool such as https://www.deepl.com where you have to copy and paste the english text
   to get it translated or use [Google Translate](https://github-com.translate.goog/T-o-b-i-a-s/AndroidAPS?_x_tr_sl=en&_x_tr_tl=de&_x_tr_hl=de&_x_tr_pto=wapp)
   to automatically translate the whole page (target language is set to German in this example, but can be changed at the top).
+  
 General remark:
 If you have been working with older AndroidAPS versions (2.x, 3.0, 3.1, 3.2, 3.3) before and this is the first time you build a 3.4 version,
 please first build and run the regular AndroidAPS 3.4.x version from
